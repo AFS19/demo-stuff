@@ -27,6 +27,7 @@ class PatientPanelProvider extends PanelProvider
             ->path('patient')
             ->login()
             ->registration()
+            ->profile()
             ->colors([
                 'primary' => Color::Cyan,
             ])
