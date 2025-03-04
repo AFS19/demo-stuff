@@ -43,15 +43,15 @@ final class User extends Authenticatable implements FilamentUser
     {
         $panel_id = $panel->getId();
 
-        if ($panel_id === 'admin' && str_ends_with($this->email, '@admin.com')) {
+        if ($panel_id === 'admin' && $this->hasRole('Admin')) {
             return true;
         }
 
-        if ($panel_id === 'doctor' && str_ends_with($this->email, '@doctor.com')) {
+        if ($panel_id === 'doctor' && $this->hasRole('Doctor')) {
             return true;
         }
 
-        if ($panel_id === 'patient' && str_ends_with($this->email, '@patient.com')) {
+        if ($panel_id === 'patient' && $this->hasRole('Patient')) {
             return true;
         }
 

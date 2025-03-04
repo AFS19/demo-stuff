@@ -15,11 +15,34 @@ final class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Reset cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        User::factory()->create([
+        // Run the RolePermissionSeeder to create roles and permissions
+        $this->call(RolePermissionSeeder::class);
+
+        // Create an Admin user
+        $admin = User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@admin.com',
         ]);
+
+        // Assign the 'Admin' role to the user
+        $admin->assignRole('Admin');
+
+        $doctor = User::factory()->create([
+            'name' => 'Doctor User',
+            'email' => 'doctor@doctor.com',
+            'password' => bcrypt('password'),
+        ]);
+        $doctor->assignRole('Doctor');
+
+        $patient = User::factory()->create([
+            'name' => 'Patient User',
+            'email' => 'patient@patient.com',
+            'password' => bcrypt('password'),
+        ]);
+        $patient->assignRole('Patient');
+
     }
 }
