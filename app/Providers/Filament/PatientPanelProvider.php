@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\CustomRegister;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -26,7 +27,7 @@ class PatientPanelProvider extends PanelProvider
             ->id('patient')
             ->path('patient')
             ->login()
-            ->registration()
+            ->registration(CustomRegister::class)
             ->profile()
             ->colors([
                 'primary' => Color::Cyan,
