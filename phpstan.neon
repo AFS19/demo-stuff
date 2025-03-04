@@ -1,0 +1,14 @@
+includes:
+    - phpstan-baseline.neon
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    checkMissingIterableValueType: true
+
+    level: 6
+
+    paths:
+        - app/
+        - config/
+        - database/factories
+        - routes/

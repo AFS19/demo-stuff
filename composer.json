@@ -1,0 +1,133 @@
+{
+    "name": "digiton-ma/laravel-starter-kit",
+    "type": "project",
+    "description": "A starter kit for the Laravel framework.",
+    "keywords": [
+        "laravel",
+        "framework",
+        "starter",
+        "kit",
+        "filamentphp"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "arcanedev/laravel-settings": "^11.0",
+        "awcodes/filament-quick-create": "^3.4",
+        "awcodes/filament-tiptap-editor": "^3.0",
+        "aymanalhattami/filament-date-scopes-filter": "^1.0",
+        "aymanalhattami/filament-slim-scrollbar": "^2.0",
+        "filament/filament": "^3.2",
+        "filament/spatie-laravel-media-library-plugin": "^3.2",
+        "hasnayeen/themes": "^3.0",
+        "joshembling/image-optimizer": "^1.4",
+        "laravel/framework": "^11.9",
+        "laravel/tinker": "^2.9",
+        "sakanjo/laravel-easy-enum": "^1.0",
+        "sakanjo/laravel-easy-metrics": "^1.0",
+        "spatie/laravel-permission": "*",
+        "spatie/laravel-query-builder": "*",
+        "spatie/laravel-responsecache": "^7.6",
+        "spatie/laravel-sitemap": "^7.2"
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
+        "barryvdh/laravel-ide-helper": "^3.1",
+        "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^2.0",
+        "laravel/pint": "^1.17",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.0",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-arch": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "pestphp/pest-plugin-type-coverage": "^3.0",
+        "phpstan/phpstan-deprecation-rules": "^1.2",
+        "phpstan/phpstan-phpunit": "^1.4",
+        "rector/rector": "^1.2.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade",
+            "@php artisan ide-helper:generate-safe"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "clear-all": [
+            "composer dumpautoload -o",
+            "@php artisan clear-compiled",
+            "@php artisan filament:clear-cache",
+            "@php artisan cache:clear",
+            "@php artisan route:clear",
+            "@php artisan view:clear",
+            "@php artisan config:clear",
+            "@php artisan cache:forget spatie.permission.cache"
+        ],
+        "pint": [
+            "pint"
+        ],
+        "lint": "pint",
+        "refactor": "rector",
+        "test:lint": "pint --test",
+        "test:refactor": "rector --dry-run",
+        "test:types": "phpstan analyse",
+        "test:arch": "pest --filter=arch",
+        "test:type-coverage": "pest --type-coverage --min=100",
+        "test:unit": "pest --parallel --coverage --min=100",
+        "test": [
+            "@test:lint",
+            "@test:refactor",
+            "@test:types",
+            "@test:type-coverage",
+            "@test:unit"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "barryvdh/laravel-ide-helper"
+            ]
+        },
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
