@@ -11,11 +11,12 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 final class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -40,7 +41,21 @@ final class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return str_ends_with($this->email, '@admin.com');
+        $panel_id = $panel->getId();
+
+        if ($panel_id === 'admin' && str_ends_with($this->email, '@admin.com')) {
+            return true;
+        }
+
+        if ($panel_id === 'doctor' && str_ends_with($this->email, '@doctor.com')) {
+            return true;
+        }
+
+        if ($panel_id === 'patient' && str_ends_with($this->email, '@patient.com')) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
