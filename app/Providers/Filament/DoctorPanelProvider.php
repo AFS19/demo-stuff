@@ -29,8 +29,14 @@ class DoctorPanelProvider extends PanelProvider
             ->login()
             ->registration(CustomRegister::class)
             ->profile()
+            ->topNavigation()
             ->colors([
+                'danger' => Color::Red,
+                'gray' => Color::Slate,
+                'info' => Color::Blue,
                 'primary' => Color::Green,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
             ->discoverResources(in: app_path('Filament/Doctor/Resources'), for: 'App\\Filament\\Doctor\\Resources')
             ->discoverPages(in: app_path('Filament/Doctor/Pages'), for: 'App\\Filament\\Doctor\\Pages')
@@ -39,8 +45,6 @@ class DoctorPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Doctor/Widgets'), for: 'App\\Filament\\Doctor\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
