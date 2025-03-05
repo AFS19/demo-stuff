@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserGenderEnum;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -23,10 +24,17 @@ final class User extends Authenticatable implements FilamentUser
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'phone',
+        'dob', // birthdate
+        'gender',
+        'address',
+        'bio', // biographical description of the doctor
+        'experience'
     ];
 
     /**
@@ -68,6 +76,30 @@ final class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'gender' => UserGenderEnum::class,
         ];
+    }
+
+    /*
+     * Relationships
+     */
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'patient_id');
+    }
+
+    public function doctorAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'doctor_id');
+    }
+
+    public function medicalRecords()
+    {
+        return $this->hasMany(MedicalRecord::class, 'patient_id');
+    }
+
+    public function specialities()
+    {
+        return $this->belongsToMany(Speciality::class)->withTimestamps();
     }
 }

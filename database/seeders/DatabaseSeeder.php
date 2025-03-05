@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 final class DatabaseSeeder extends Seeder
 {
@@ -43,6 +44,5 @@ final class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $patient->assignRole('Patient');
-
     }
 }

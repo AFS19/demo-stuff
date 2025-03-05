@@ -19,6 +19,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->nullable(); // Shared phone field
+            $table->date('dob')->nullable(); // Date of birth (optional)
+            $table->string('gender')->nullable();
+            $table->string('address')->nullable();
+            $table->text('bio')->nullable(); // Doctor-specific bio (optional)
+            $table->integer('experience')->nullable(); // Doctor-specific experience (optional)
             $table->rememberToken();
             $table->timestamps();
         });
