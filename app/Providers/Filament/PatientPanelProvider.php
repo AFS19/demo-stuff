@@ -23,6 +23,14 @@ class PatientPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        try {
+            $brandName = settings()->get('general.site_name');
+            $brandLogoHeight = settings()->get('general.site_logo_height');
+        } catch (Throwable) {
+            $brandName = null;
+            $brandLogoHeight = null;
+        }
+
         return $panel
             ->id('patient')
             ->path('patient')
@@ -38,6 +46,10 @@ class PatientPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
+            ->favicon(file_exists($favIcon = storage_path('app/public/favicon.png')) ? asset('storage/favicon.png').'?v='.md5_file($favIcon) : null)
+            ->brandLogo(file_exists($logo = storage_path('app/public/logo.png')) ? asset('storage/logo.png').'?v='.md5_file($logo) : null)
+            ->brandName($brandName ?? config('app.name'))
+            ->brandLogoHeight($brandLogoHeight ?? '40px')
             ->discoverResources(in: app_path('Filament/Patient/Resources'), for: 'App\\Filament\\Patient\\Resources')
             ->discoverPages(in: app_path('Filament/Patient/Pages'), for: 'App\\Filament\\Patient\\Pages')
             ->pages([

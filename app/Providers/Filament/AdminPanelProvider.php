@@ -50,7 +50,7 @@ final class AdminPanelProvider extends PanelProvider
             ->favicon(file_exists($favIcon = storage_path('app/public/favicon.png')) ? asset('storage/favicon.png').'?v='.md5_file($favIcon) : null)
             ->brandLogo(file_exists($logo = storage_path('app/public/logo.png')) ? asset('storage/logo.png').'?v='.md5_file($logo) : null)
             ->brandName($brandName ?? config('app.name'))
-            ->brandLogoHeight($brandLogoHeight ?? '75px')
+            ->brandLogoHeight($brandLogoHeight ?? '40px')
             ->login()
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')

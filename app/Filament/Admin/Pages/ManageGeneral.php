@@ -123,7 +123,7 @@ final class ManageGeneral extends Page implements Forms\Contracts\HasForms
                                 Forms\Components\FileUpload::make('general.site_favicon')
                                     ->label('Favicon du site')
                                     ->image()
-                                    ->maxSize(32)
+                                    ->maxSize(64)
                                     ->disk('public')
                                     ->getUploadedFileNameForStorageUsing(fn (TemporaryUploadedFile $file): string => 'favicon.png'),
 

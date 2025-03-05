@@ -5,8 +5,14 @@
 
     <section class="h-screen w-screen flex justify-center items-center bg-gradient-to-tl from-gray-300 to-gray-50">
         <div class="text-center space-y-10">
+            <div class="flex justify-center items-center">
+                <img src="{{ file_exists(storage_path('app/public/logo.png')) ? asset('storage/logo.png').'?v='.md5_file(storage_path('app/public/logo.png')) : asset('assets/logos/logo.webp') }}"
+                     class="w-24 h-24"/>
+
+            </div>
+
             <!-- Title -->
-            <h1 class="text-3xl md:text-4xl lg:text-6xl font-semibold text-gray-400">Home Page</h1>
+            <h1 class="text-3xl md:text-4xl lg:text-6xl font-semibold text-gray-400">We4Care</h1>
 
             <!-- Links Container -->
             <div class="flex flex-col justify-center items-center space-y-4">
