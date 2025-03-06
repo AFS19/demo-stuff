@@ -22,6 +22,8 @@ final class DatabaseSeeder extends Seeder
         // Run the RolePermissionSeeder to create roles and permissions
         $this->call(RolePermissionSeeder::class);
 
+        $this->call(SpecialitiesTableSeeder::class);
+
         // Create an Admin user
         $admin = User::factory()->create([
             'name' => 'Admin User',
@@ -38,11 +40,16 @@ final class DatabaseSeeder extends Seeder
         ]);
         $doctor->assignRole('Doctor');
 
+        // Assign specialities to the doctor
+        $specialityIds = \App\Models\Speciality::inRandomOrder()->take(3)->pluck('id')->toArray();
+        $doctor->specialities()->attach($specialityIds);
+
         $patient = User::factory()->create([
             'name' => 'Patient User',
             'email' => 'patient@patient.com',
             'password' => bcrypt('password'),
         ]);
         $patient->assignRole('Patient');
+        $this->call(SpecialitiesTableSeeder::class);
     }
 }

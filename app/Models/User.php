@@ -10,6 +10,8 @@ use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -83,23 +85,30 @@ final class User extends Authenticatable implements FilamentUser
     /*
      * Relationships
      */
-    public function appointments()
+    public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class, 'patient_id');
     }
 
-    public function doctorAppointments()
+    public function doctorAppointments(): HasMany
     {
         return $this->hasMany(Appointment::class, 'doctor_id');
     }
 
-    public function medicalRecords()
+    public function medicalRecords(): HasMany
     {
         return $this->hasMany(MedicalRecord::class, 'patient_id');
     }
 
-    public function specialities()
+    public function specialities(): BelongsToMany
     {
-        return $this->belongsToMany(Speciality::class)->withTimestamps();
+        return $this->belongsToMany(Speciality::class, 'doctor_specialities')
+            ->withTimestamps();
     }
+
+    public function scopeDoctors($query)
+    {
+        return $query->role('Doctor');
+    }
+
 }
