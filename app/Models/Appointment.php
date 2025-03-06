@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AppointmentMethodEnum;
 use App\Enums\AppointmentStatusEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
@@ -31,12 +32,16 @@ class Appointment extends Model
     // Relationships
     public function patient()
     {
-        return $this->belongsTo(User::class, 'patient_id');
+        return $this->belongsTo(User::class, 'patient_id')->whereHas('roles', function ($query) {
+            $query->where('name', 'patient');
+        });
     }
 
     public function doctor()
     {
-        return $this->belongsTo(User::class, 'doctor_id');
+        return $this->belongsTo(User::class, 'doctor_id')->whereHas('roles', function ($query) {
+            $query->where('name', 'doctor');
+        });
     }
 
     public function speciality()
