@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Filament\Support\Enums\MaxWidth;
 
 class PatientAppointmentPage extends Page
 {
@@ -17,17 +18,17 @@ class PatientAppointmentPage extends Page
     protected static ?string $title = 'Appointments';
     protected static string $view = 'filament.patient.pages.patient-appointment-page';
 
-    /*
-        'patient_id',
-        'doctor_id',
-        'specialty_id',
-        'status',
-        'date_time',
-        'method',
-        'payment_status',
-        'google_event_id',
-        'zoom_meeting_link'
-     */
+    public $data = [];
+
+    public function getMaxContentWidth(): MaxWidth
+    {
+        return MaxWidth::Prose;
+    }
+
+    public function mount(): void
+    {
+        $this->form->fill();
+    }
 
     public function form(Form $form): Form
     {
@@ -37,30 +38,14 @@ class PatientAppointmentPage extends Page
                 ->required()
                 ->options(Speciality::pluck('name', 'id'))
                 ->preload()
-                ->searchable()
-                ->live()
-                ->afterStateUpdated(fn (callable $set) => $set('doctor_id', null)),
+                ->searchable(),
 
             Forms\Components\Select::make('doctor_id')
                 ->label(__('Doctor'))
                 ->required()
-                ->options(function (Forms\Get $get) {
-                    $specialityId = $get('speciality_id');
-
-                    if (!$specialityId) {
-                        return [];
-                    }
-
-                    return User::query()
-                        ->whereHas('specialities', function ($query) use ($specialityId) {
-                            $query->where('speciality_id', $specialityId);
-                        })
-                        ->pluck('name', 'id');
-                })
+                ->options(User::doctors()->pluck('name', 'id'))
                 ->searchable()
-                ->preload()
-                ->disabled(fn (Forms\Get $get) => !$get('speciality_id'))
-                ->live(),
-        ]);
+                ->preload(),
+        ])->statePath($this->data);
     }
 }
